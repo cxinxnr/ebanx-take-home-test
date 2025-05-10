@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query, Request
+from fastapi import FastAPI, Query, Request, Response
 from app import store
 from fastapi.responses import JSONResponse
 
@@ -7,7 +7,7 @@ app = FastAPI()
 @app.post("/reset")
 def reset():
     store.reset_store()
-    return {}, 200
+    return Response(status_code=200)
 @app.get("/balance")
 def get_balance(account_id: str = Query(..., alias="account_id")):
     balance = store.get_account(account_id)
