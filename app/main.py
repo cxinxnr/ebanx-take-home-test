@@ -33,5 +33,22 @@ async def handle_event(request: Request):
             content={"destination": {"id": destination, "balance": new_balance}},
             status_code=201,
         )
+    
+    elif event_type == "withdraw":
+      origin = data["origin"]
+      amount = data["amount"]
+      
+      current_balance = store.get_account(origin)
+      if current_balance is None:
+          return JSONResponse(content=0, status_code=404)
+      
+      new_balance = current_balance - amount
+      store.set_account(origin, new_balance)
+
+      return JSONResponse(
+          content={"origin": {"id": origin, "balance": new_balance}},
+          status_code=201,
+      )
+
 
     return JSONResponse(status_code=400, content={"error": "Invalid event type"})
