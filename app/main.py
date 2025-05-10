@@ -7,7 +7,8 @@ app = FastAPI()
 @app.post("/reset")
 def reset():
     store.reset_store()
-    return Response(status_code=200)
+    return Response('OK')
+
 @app.get("/balance")
 def get_balance(account_id: str = Query(..., alias="account_id")):
     balance = store.get_account(account_id)
